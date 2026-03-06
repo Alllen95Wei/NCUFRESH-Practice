@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+}
+
+#app {
+    margin-top: calc(0.25em * 3 + 3em);
+}
+
+/* 按鈕內容置中 */
+.btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+}
