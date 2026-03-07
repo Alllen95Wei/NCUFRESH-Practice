@@ -4,6 +4,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from "@/views/Home.vue"
 import ItemDetail from "@/views/ItemDetail.vue";
 import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
 
 // Routes
 const routes: RouteRecordRaw[] = [
@@ -21,9 +22,11 @@ const routes: RouteRecordRaw[] = [
         path: "/login",
         name: "login",
         component: Login,
-        meta: {
-            auth: false
-        }
+    },
+    {
+        path: "/register",
+        name: "register",
+        component: Register,
     }
 ];
 
