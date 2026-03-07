@@ -1,10 +1,17 @@
 <script setup>
 import axios from "axios";
+import { ref } from "vue";
+
 import ProductMenu from "@/components/ProductMenu.vue";
 
-const allProducts = axios.get("/api/products/").then((response) => {
-    return response.data;
-})
+
+const allProducts = ref([]);
+const productApi = axios.create({ baseURL: "/api/products" })
+productApi.get("/").then(response => {
+    allProducts.value = response.data;
+}).catch(error => {
+    console.error("Failed to fetch products:", error);
+});
 </script>
 
 <template>
