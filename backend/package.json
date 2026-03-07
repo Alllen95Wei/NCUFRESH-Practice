@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "node src/main.js"
+  },
+  "dependencies": {
+    "@sequelize/mysql": "^7.0.0-alpha.48",
+    "bcrypt": "^6.0.0",
+    "express": "^5.2.1",
+    "jose": "^6.1.3",
+    "mysql2": "^3.18.2",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.5"
+  }
+}
