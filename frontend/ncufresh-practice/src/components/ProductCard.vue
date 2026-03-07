@@ -13,6 +13,7 @@ const cartStore = useCartStore();
 const notifStore = useNotificationStore();
 
 function formatPrice(value) {
+    value = Number(value);
     return value.toLocaleString();
 }
 
@@ -25,8 +26,6 @@ function addToCart(event) {
         btnIcon.textContent = "add";
     }, 2000);
 }
-
-console.log(props.image);
 </script>
 
 <template>
