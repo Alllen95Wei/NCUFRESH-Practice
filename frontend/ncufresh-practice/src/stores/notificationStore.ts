@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-enum NotifType {
+export enum NotifType {
     SUCCESS = "success",
     ERROR = "error",
     INFO = "info"
