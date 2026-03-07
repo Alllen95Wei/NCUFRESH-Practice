@@ -28,6 +28,10 @@ function initModel(sequelize) {
             password: {
                 type: DataTypes.STRING(255),
                 allowNull: false,
+                set(value) {
+                    const salt = bcrypt.genSaltSync(10);
+                    this.setDataValue("password", bcrypt.hashSync(value, salt));
+                }
             },
             roles: {
                 type: DataTypes.JSON,
@@ -36,20 +40,20 @@ function initModel(sequelize) {
         },
         {
             sequelize: sequelize,
-            hooks: {
-                beforeCreate: async (user) => {
-                    if (user.password) {
-                        const salt = await bcrypt.genSalt(10);
-                        user.password = await bcrypt.hash(user.password, salt);
-                    }
-                },
-                beforeUpdate: async (user) => {
-                    if (user.changed("password")) {
-                        const salt = await bcrypt.genSalt(10);
-                        user.password = await bcrypt.hash(user.password, salt);
-                    }
-                }
-            }
+            // hooks: {
+            //     beforeCreate: async (user) => {
+            //         if (user.password) {
+            //             const salt = await bcrypt.genSalt(10);
+            //             user.password = await bcrypt.hash(user.password, salt);
+            //         }
+            //     },
+            //     beforeUpdate: async (user) => {
+            //         if (user.changed("password")) {
+            //             const salt = await bcrypt.genSalt(10);
+            //             user.password = await bcrypt.hash(user.password, salt);
+            //         }
+            //     }
+            // }
         }
     );
 
