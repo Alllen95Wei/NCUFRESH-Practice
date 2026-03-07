@@ -6,7 +6,7 @@ import { checkRoles } from "../middlewares/auth.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
-    const products = await db.Product.findAll();
+    const products = await db.Product.findAll({ limit: 50 });
     let productsJSON = [];
     for (const product of products) {
         productsJSON.push(product.toJSON());
