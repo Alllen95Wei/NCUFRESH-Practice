@@ -14,8 +14,8 @@ const cartStore = useCartStore();
 const notifStore = useNotificationStore();
 
 const productApi = axios.create({ baseURL: "/api/products" })
-let itemId = route.params.id;
-const itemDetail = ref({
+let productId = route.params.id;
+const productDetail = ref({
     name: "商品",
     description: "這是一個商品的介紹內容",
     price: 10000,
@@ -26,7 +26,7 @@ let isValidId = ref(true);
 watch(
     () => route.params.id,
     async (newId) => {
-        itemId = newId;
+        productId = newId;
         await updateItemDetail(newId);
     },
     { immediate: true }
@@ -34,7 +34,7 @@ watch(
 
 async function updateItemDetail(itemId) {
     productApi.get(`/${itemId}`).then((response) => {
-        itemDetail.value = response.data;
+        productDetail.value = response.data;
         isValidId.value = true;
     }).catch((error) => {
         isValidId.value = false;
@@ -66,19 +66,19 @@ function amountInput(event) {
 }
 
 function addToCart() {
-    cartStore.addToCart({id: parseInt(itemId), name: itemDetail.value.name, price: itemDetail.value.price}, amount.value);
-    notifStore.show(`已將 ${itemDetail.value.name} ×${amount.value} 加入購物車！`, "success");
+    cartStore.addToCart({id: parseInt(productId), name: productDetail.value.name, price: productDetail.value.price}, amount.value);
+    notifStore.show(`已將 ${productDetail.value.name} ×${amount.value} 加入購物車！`, "success");
 }
 </script>
 
 <template>
     <div class="item-container" v-if="isValidId">
-        <img class="item-img" :src="itemDetail.image" alt=""/>
+        <img class="item-img" :src="productDetail.image" alt=""/>
         <div class="item-detail">
             <div class="item-info">
-                <span class="item-name">{{ itemDetail.name }}</span>
-                <span class="item-price">NT$ {{ itemDetail.price.toLocaleString() }}</span>
-                <span class="item-description">{{ itemDetail.description }}</span>
+                <span class="item-name">{{ productDetail.name }}</span>
+                <span class="item-price">NT$ {{ productDetail.price.toLocaleString() }}</span>
+                <span class="item-description">{{ productDetail.description }}</span>
             </div>
             <div class="item-actions">
                 <div class="quantity-container">
