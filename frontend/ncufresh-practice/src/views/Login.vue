@@ -1,21 +1,41 @@
 <script setup lang="ts">
-import {useAuth} from "vue-auth3";
+import axios from "axios";
 
 import "@material/web/textfield/filled-text-field.js"
 import "@material/web/button/filled-button.js";
 import "@material/web/icon/icon.js"
 
-const auth = useAuth();
+import { useNotificationStore, NotifType } from "@/stores/notificationStore";
 
-function login() {
+const authApi = axios.create({ baseURL: "/api/auth" })
+const notificationStore = useNotificationStore();
+
+async function login() {
     const loginForm = document.getElementsByClassName("login-form")[0] as HTMLFormElement;
     if (loginForm.checkValidity()) {
-        auth.login({
-            body: {
-                email: (loginForm.elements.namedItem("email") as HTMLInputElement).value,
-                password: (loginForm.elements.namedItem("password") as HTMLInputElement).value
+        const data = {
+            email: (document.getElementById("email-input") as HTMLInputElement).value,
+            password: (document.getElementById("password-input") as HTMLInputElement).value
+        };
+        try {
+            const response = await authApi.post("/login", data);
+            if (response.status === 200) {
+                window.localStorage.setItem("token", response.data.token);
+                notificationStore.show("登入成功！");
+                window.location.href = "/";
             }
-        })
+        } catch (error) {
+            console.error("Login failed:", error);
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 401) {
+                    notificationStore.show("登入失敗。請檢查電子郵件地址和密碼是否正確。", NotifType.ERROR);
+                    return;
+                }
+            }
+            notificationStore.show("登入錯誤。請聯絡管理員。", NotifType.ERROR, 10000);
+        }
+    } else {
+        loginForm.reportValidity();
     }
 }
 </script>
@@ -24,10 +44,10 @@ function login() {
     <div class="login-container">
         <h1>登入</h1>
         <form class="login-form">
-            <md-filled-text-field type="email" label="電子郵件地址" name="email" required>
+            <md-filled-text-field type="email" label="電子郵件地址" name="email" id="email-input" required>
                 <md-icon slot="leading-icon">mail</md-icon>
             </md-filled-text-field>
-            <md-filled-text-field type="password" label="密碼" name="password" required>
+            <md-filled-text-field type="password" label="密碼" name="password" id="password-input" required>
                 <md-icon slot="leading-icon">password</md-icon>
             </md-filled-text-field>
             <md-filled-button class="login-btn" type="button" @click="login">
