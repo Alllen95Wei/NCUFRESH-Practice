@@ -38,7 +38,7 @@ productApi.get("/").then(response => {
     height: 40vh;
     width: 100%;
     color: white;
-    background-image: url('/src/assets/img/banner-blur.png');
+    background-image: url('@/assets/img/banner-blur.png');
     background-position: center center;
 }
 </style>
