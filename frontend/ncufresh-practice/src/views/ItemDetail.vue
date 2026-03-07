@@ -7,11 +7,13 @@ import { useCartStore } from "@/stores/cartStore.ts";
 import { useNotificationStore } from "@/stores/notificationStore.ts";
 
 import "@material/web/button/filled-button.js";
+import "@material/web/progress/circular-progress.js";
 
 const route = useRoute();
 const cartStore = useCartStore();
 const notifStore = useNotificationStore();
 
+const productApi = axios.create({ baseURL: "/api/products" })
 let itemId = route.params.id;
 const itemDetail = ref({
     name: "商品",
@@ -19,7 +21,7 @@ const itemDetail = ref({
     price: 10000,
     image: "https://placehold.co/400"});
 const amount = ref(1);
-updateItemDetail(itemId);
+let isValidId = ref(true);
 
 watch(
     () => route.params.id,
@@ -31,7 +33,15 @@ watch(
 )
 
 async function updateItemDetail(itemId) {
-    const response = await axios.get(`http://localhost:3000/api/items/${itemId}`);
+    productApi.get(`/${itemId}`).then((response) => {
+        itemDetail.value = response.data;
+        isValidId.value = true;
+    }).catch((error) => {
+        isValidId.value = false;
+        console.error("Failed to fetch item detail:", error);
+        notifStore.show("無法獲取商品資訊。請稍後再試。", "error", 5000);
+    });
+
 }
 
 function amountAdd() {
@@ -56,13 +66,13 @@ function amountInput(event) {
 }
 
 function addToCart() {
-    cartStore.addToCart({id: itemId, name: itemDetail.value.name, price: itemDetail.value.price}, amount.value);
+    cartStore.addToCart({id: parseInt(itemId), name: itemDetail.value.name, price: itemDetail.value.price}, amount.value);
     notifStore.show(`已將 ${itemDetail.value.name} ×${amount.value} 加入購物車！`, "success");
 }
 </script>
 
 <template>
-    <div class="item-container">
+    <div class="item-container" v-if="isValidId">
         <img class="item-img" :src="itemDetail.image" alt=""/>
         <div class="item-detail">
             <div class="item-info">
@@ -90,6 +100,9 @@ function addToCart() {
             </div>
         </div>
     </div>
+    <div class="loading-container" v-else>
+        <md-circular-progress indeterminate style="transform: scale(200%)" id="loading-animation"></md-circular-progress>
+    </div>
 </template>
 
 <style scoped>
@@ -102,11 +115,20 @@ function addToCart() {
     padding-top: 5vh;
 }
 
+.loading-container {
+    width: 100%;
+    padding-top: 50vh;
+    display: flex;
+    justify-content: center;
+}
+
 .item-img {
     max-height: 400px;
     max-width: 400px;
-    object-fit: cover;
+    aspect-ratio: 1/1;
+    object-fit: scale-down;
     border-radius: 10px;
+    background-color: #e8e8e8;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
