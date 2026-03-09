@@ -6,7 +6,8 @@ const props = defineProps({
     id: { type: Number, required: true },
     name: { type: String, default: "Product", required: true },
     image: { type: String, default: 'https://placehold.co/400', required: true },
-    price: { type: Number, default: 114514, required: true }
+    price: { type: Number, default: 114514, required: true },
+    categories: { type: Array, default: [], required: false }
 });
 
 const cartStore = useCartStore();
