@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 // Views
 import Home from "@/views/Home.vue"
-import ItemDetail from "@/views/ProductDetail.vue";
+import ProductDetail from "@/views/ProductDetail.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 
@@ -15,8 +15,8 @@ const routes: RouteRecordRaw[] = [
     },
     {
         path: "/product/:id",
-        name: "item-detail",
-        component: ItemDetail,
+        name: "product-detail",
+        component: ProductDetail,
     },
     {
         path: "/login",
