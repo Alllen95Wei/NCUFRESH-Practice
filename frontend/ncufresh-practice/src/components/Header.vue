@@ -39,7 +39,7 @@ function getAvatarUrl() {
                 <span class="material-symbols-outlined icon-btn">login</span>
                 </router-link>
             </div>
-            <img id="user-avatar" alt="User Avatar" v-if="isLoggedIn" :src="getAvatarUrl()" />
+            <img id="user-avatar" alt="User Avatar" v-if="isLoggedIn()" :src="getAvatarUrl()" />
             <img id="user-avatar" alt="User Avatar" v-else src="https://www.gravatar.com/avatar" />
         </div>
     </header>
