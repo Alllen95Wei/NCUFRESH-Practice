@@ -1,6 +1,6 @@
 import express from "express";
 // DB
-import db from "./db.js";
+// import db from "./db.js";
 // Routes
 import authRouter from "./routes/auth.js";
 import productsRouter from "./routes/products.js";
@@ -11,6 +11,8 @@ const app = express();
 const apiRouter = express.Router();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static("dist"));
 app.use(logger);
 
 apiRouter.use("/auth", authRouter);
