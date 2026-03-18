@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import axios from "axios";
+import { sha256 } from "js-sha256";
 
 import "@material/web/textfield/filled-text-field.js"
 import "@material/web/button/filled-button.js";
+import "@material/web/button/text-button.js";
 import "@material/web/icon/icon.js"
 
 import { useNotificationStore, NotifType } from "@/stores/notificationStore";
@@ -21,6 +23,9 @@ async function login() {
             const response = await authApi.post("/login", data);
             if (response.status === 200) {
                 window.localStorage.setItem("token", response.data.token);
+                window.localStorage.setItem("user", response.data.user);
+                window.localStorage.setItem(
+                    "avatar_url", `https://gravatar.com/avatar/${sha256(response.data.user.email)}`);
                 notificationStore.show("登入成功！");
                 window.location.href = "/";
             }
