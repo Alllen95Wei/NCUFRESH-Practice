@@ -4,6 +4,10 @@ import { useCartStore } from "@/stores/cartStore.ts";
 import CartItem from "@/components/CartItem.vue";
 
 const cartStore = useCartStore();
+
+function isLoggedIn() {
+    return window.localStorage.getItem("token") !== null;
+}
 </script>
 
 <template>
@@ -24,10 +28,16 @@ const cartStore = useCartStore();
                     <span>總金額：</span>
                     <span class="sum-text">NTD$ {{ cartStore.getTotalPrice().toLocaleString() }}</span>
                 </div>
-                <md-filled-button>
+                <md-filled-button v-if="isLoggedIn()">
                     <div class="btn-content">
                         <span>前往結帳</span>
                         <span class="material-symbols-outlined">shopping_cart_checkout</span>
+                    </div>
+                </md-filled-button>
+                <md-filled-button v-else type="button" href="/login">
+                    <div class="btn-content">
+                        <span>請先登入</span>
+                        <span class="material-symbols-outlined">login</span>
                     </div>
                 </md-filled-button>
             </div>
