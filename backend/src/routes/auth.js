@@ -28,9 +28,8 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
     try {
-        const newUser = await db.User.create({ name, email, password });
-        const token = await generateJWT(newUser);
-        return res.json({ token: token });
+        await db.User.create({ name, email, password });
+        return res.sendStatus(201);
     } catch (error) {
         if (error.name === "SequelizeUniqueConstraintError") {
             return res.status(400).json({ message: "Email already in use" });
@@ -38,6 +37,6 @@ router.post("/register", async (req, res) => {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });
     }
-})
+});
 
 export default router;
