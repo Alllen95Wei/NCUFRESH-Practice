@@ -2,8 +2,8 @@ import { DataTypes, Model } from "sequelize";
 import bcrypt from "bcrypt";
 
 class User extends Model {
-    verifyPassword(inputPassword) {
-        return bcrypt.compare(inputPassword, this.password);
+    async verifyPassword(inputPassword) {
+        return await bcrypt.compare(inputPassword, this.password);
     }
 }
 
