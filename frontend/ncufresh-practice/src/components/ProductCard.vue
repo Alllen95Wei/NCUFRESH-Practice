@@ -31,14 +31,14 @@ function addToCart(event) {
 
 <template>
     <div class="product-card">
-        <router-link :to="'/item/' + id">
+        <router-link :to="'/product/' + id">
         <div class="product-image">
             <img :src="image" :alt="name + ` 的圖片`" />
         </div>
         </router-link>
 
         <div class="product-info">
-            <router-link :to="'/item/' + id">
+            <router-link :to="'/product/' + id">
             <h3 class="product-name">{{ name }}</h3>
             <p class="product-price">NT$ {{ formatPrice(price) }}</p>
             </router-link>
@@ -59,7 +59,7 @@ a {
 }
 
 .product-card {
-    width: 250px;
+    min-width: 250px;
     border: 1px solid #eee;
     border-radius: 8px;
     overflow: hidden;
