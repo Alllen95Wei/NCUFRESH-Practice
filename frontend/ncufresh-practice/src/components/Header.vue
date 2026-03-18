@@ -7,10 +7,6 @@ function isLoggedIn() {
     return window.localStorage.getItem("token") !== null;
 }
 
-function toLoginPage() {
-    window.location.href = "/login";
-}
-
 function logout() {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("user");
@@ -37,8 +33,11 @@ function getAvatarUrl() {
                     <span class="cart-count" v-if="cartStore.getItemCount() >= 10">9+</span>
                     <span class="cart-count" v-else-if="cartStore.getItemCount() > 0">{{ cartStore.getItemCount() }}</span>
                 </div>
+                </router-link>
                 <span @click="logout" v-if="isLoggedIn()" class="material-symbols-outlined icon-btn">logout</span>
-                <span @click="toLoginPage" v-else class="material-symbols-outlined icon-btn">login</span>
+                <router-link v-else to="/login" style="color: black">
+                <span class="material-symbols-outlined icon-btn">login</span>
+                </router-link>
             </div>
             <img id="user-avatar" alt="User Avatar" v-if="isLoggedIn" :src="getAvatarUrl()" />
             <img id="user-avatar" alt="User Avatar" v-else src="https://www.gravatar.com/avatar" />
