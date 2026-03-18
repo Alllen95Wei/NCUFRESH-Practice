@@ -27,4 +27,12 @@ router.get("/:id", async (req, res) => {
     res.json(product.toJSON());
 });
 
+router.get("/:id/image", async (req, res) => {
+    const product = await db.Product.findByPk(req.params.id, { attributes: ["image"] });
+    if (product === null) {
+        return res.status(404).json({ message: "Product not found" });
+    }
+    res.json({ image: product.image });
+})
+
 export default router;
