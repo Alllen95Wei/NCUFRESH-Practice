@@ -18,7 +18,13 @@ productApi.get("/").then(response => {
     <div id="home-banner">
         <h1 class="quantico-bold-italic">An Online Shop</h1>
     </div>
-    <ProductMenu :products="allProducts" />
+    <div class="products-container">
+        <div class="all-product-title">
+            <span class="material-symbols-outlined" style="font-size: 1.5em; vertical-align: middle">storefront</span>
+            <span style="font-size: 1.5em; font-weight: bold">所有商品</span>
+        </div>
+        <ProductMenu :products="allProducts" />
+    </div>
 </template>
 
 <style scoped>
