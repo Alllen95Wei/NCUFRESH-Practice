@@ -47,4 +47,14 @@ productApi.get("/").then(response => {
     background-image: url('@/assets/img/banner-blur.png');
     background-position: center center;
 }
+
+.products-container {
+    margin: 0.5em;
+}
+
+.all-product-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
 </style>
