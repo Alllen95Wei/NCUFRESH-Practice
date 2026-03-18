@@ -6,9 +6,6 @@ import generateJWT from "../utils/signJWT.js";
 const router = Router();
 
 router.post("/login", async (req, res) => {
-    if (!req.body) {
-        return res.status(400).json({ message: "Request body is required" });
-    }
     const email = req.body.email;
     const password = req.body.password;
     if (!email || !password) {
