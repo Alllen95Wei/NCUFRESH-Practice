@@ -1,3 +1,11 @@
+* {
+    font-family: Arial, sans-serif;
+}
+
+md-icon {
+    font-family: 'Material Symbols Outlined';
+}
+
 body {
     margin: 0;
 }
