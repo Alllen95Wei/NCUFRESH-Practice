@@ -17,9 +17,11 @@ router.post("/login", async (req, res) => {
     if (user === null) {
         return res.status(401).json({ message: "Invalid email" });
     }
-    if (user.verifyPassword(password)) {
+    if (await user.verifyPassword(password)) {
         const token = await generateJWT(user);
-        return res.json({ token: token });
+        return res.json({ token: token, user: user.toJSON() });
+    } else {
+        return res.status(401).json({ message: "Invalid password" });
     }
 });
 
