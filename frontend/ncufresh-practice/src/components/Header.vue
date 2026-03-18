@@ -13,7 +13,13 @@ function toLoginPage() {
 
 function logout() {
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("user");
+    window.localStorage.removeItem("avatar_url");
     window.location.href = "/";
+}
+
+function getAvatarUrl() {
+    return window.localStorage.getItem("avatar_url") || "https://placehold.co/48";
 }
 </script>
 
@@ -33,8 +39,8 @@ function logout() {
                 <span @click="logout" v-if="isLoggedIn()" class="material-symbols-outlined icon-btn">logout</span>
                 <span @click="toLoginPage" v-else class="material-symbols-outlined icon-btn">login</span>
             </div>
-<!--            <img id="user-avatar" alt="User Avatar" v-if="isLoggedIn" :src="" /> &lt;!&ndash; TODO: use actual user avatar &ndash;&gt;-->
-            <img id="user-avatar" alt="User Avatar" src="https://placehold.co/48" />
+            <img id="user-avatar" alt="User Avatar" v-if="isLoggedIn" :src="getAvatarUrl()" />
+            <img id="user-avatar" alt="User Avatar" v-else src="https://www.gravatar.com/avatar" />
         </div>
     </header>
 </template>
