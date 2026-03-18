@@ -56,6 +56,14 @@ async function login() {
                     <span>登入</span>
                 </div>
             </md-filled-button>
+            <router-link to="/register">
+            <md-text-button type="button">
+                <div class="btn-content">
+                    <span class="material-symbols-outlined" style="vertical-align: middle">person_add</span>
+                    <span>註冊</span>
+                </div>
+            </md-text-button>
+            </router-link>
         </form>
     </div>
 </template>
