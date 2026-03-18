@@ -31,7 +31,8 @@ function getAvatarUrl() {
         </a>
         <div id="menu-list">
             <div class="menu-item">
-                <div class="cart-container">
+                <router-link to="/cart">
+                <div class="cart-container" style="color: black">
                     <span class="material-symbols-outlined icon-btn cart-btn">shopping_cart</span>
                     <span class="cart-count" v-if="cartStore.getItemCount() >= 10">9+</span>
                     <span class="cart-count" v-else-if="cartStore.getItemCount() > 0">{{ cartStore.getItemCount() }}</span>
