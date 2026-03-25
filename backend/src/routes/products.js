@@ -27,12 +27,21 @@ router.get("/:id", async (req, res) => {
     res.json(product.toJSON());
 });
 
-router.get("/:id/image", async (req, res) => {
-    const product = await db.Product.findByPk(req.params.id, { attributes: ["image"] });
+router.get("/:id/:attr", async (req, res) => {
+    const validAttrs = Object.keys(db.Product.getAttributes());
+    const reqAttr = req.params.attr;
+    if (!(reqAttr in validAttrs)) {
+        return res.status(400).json({ message: "Invalid attribute requested" });
+    }
+    const product = await db.Product.findByPk(
+        req.params.id, { attributes: [ reqAttr ] }
+    );
     if (product === null) {
         return res.status(404).json({ message: "Product not found" });
     }
-    res.json({ image: product.image });
+    let body = {};
+    body[reqAttr] = product[reqAttr];
+    res.json(body);
 })
 
 export default router;
