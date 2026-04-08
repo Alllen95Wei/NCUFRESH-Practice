@@ -42,6 +42,17 @@ function amountMinus() {
     cartStore.changeQuantity(props.id, productQuantity.value);
 }
 
+function amountInput(event) {
+    const value = parseInt(event.target.value);
+    if (isNaN(value) || value < 1) {
+        productQuantity.value = 1;
+    } else if (value > 99) {
+        productQuantity.value = 99;
+    } else {
+        productQuantity.value = value;
+    }
+}
+
 function removeItem() {
     if (confirm(`確定要移除 ${props.name} 嗎？`)) {
         cartStore.removeFromCart(props.id);
@@ -64,7 +75,7 @@ onMounted(() => {
         </div>
         <div class="actions">
             <div class="quantity-container">
-                <input class="quantity-input" type="number" min="1" max="99" :value="productQuantity"/>
+                <input class="quantity-input" type="number" min="1" max="99" :value="productQuantity" @change="amountInput"/>
                 <div class="quantity-btn-container">
                     <button class="quantity-btn" style="border-top-right-radius: 5px" @click="amountPlus">
                         <span class="material-symbols-outlined">add</span>
