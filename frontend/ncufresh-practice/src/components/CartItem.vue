@@ -1,5 +1,5 @@
 <script setup>
-import {defineProps, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import axios from "axios";
 
 import "@material/web/button/filled-button.js";
