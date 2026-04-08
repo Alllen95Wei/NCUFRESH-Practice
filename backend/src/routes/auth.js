@@ -12,7 +12,8 @@ router.post("/login", async (req, res) => {
         return res.status(400).json({ message: "Email and password are required" });
     }
     const user = await db.User.findOne({
-        where: { email }
+        where: { email },
+        attributes: ["id", "name", "email", "roles"]
     });
     if (user === null) {
         return res.status(401).json({ message: "Invalid email" });
