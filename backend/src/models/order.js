@@ -15,18 +15,17 @@ class Order extends Model {
         });
     }
 
-    async addItem(product, quantity, price, transaction = null) {
-        await this.addProduct(product, {
+    async addItem(productId, quantity, price) {
+        await this.addProducts(productId, {
             through: {
                 quantity: quantity,
                 price: price,
-            },
-            transaction: transaction,
+            }
         });
 
-        this.totalAmount += quantity * price;
+        this.totalAmount = Number(this.totalAmount) + quantity * price;
 
-        await this.save({ transaction: transaction });
+        await this.save();
     }
 }
 
@@ -50,6 +49,18 @@ function initModel(sequelize) {
         },
         shippingAddress: {
             type: DataTypes.TEXT("medium"),
+            allowNull: false,
+        },
+        recipientName: {
+            type: DataTypes.TEXT("tiny"),
+            allowNull: false,
+        },
+        recipientEmail: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+        },
+        recipientPhone: {
+            type: DataTypes.TEXT("tiny"),
             allowNull: false,
         }
     }, {
