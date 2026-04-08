@@ -7,10 +7,8 @@ class OrderItem extends Model {
 function initModel(sequelize) {
     OrderItem.init(
         {
-            id: {
-                type: DataTypes.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
+            productId: {
+                type: DataTypes.INTEGER.UNSIGNED
             },
             quantity: {
                 type: DataTypes.INTEGER,
