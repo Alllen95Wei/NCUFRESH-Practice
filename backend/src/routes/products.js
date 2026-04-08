@@ -2,7 +2,6 @@ import { Router } from "express";
 
 import db from "../db.js";
 import { Category } from "../models/category.js";
-import { checkRoles } from "../middlewares/auth.js";
 
 const router = Router();
 
@@ -30,7 +29,7 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/:attr", async (req, res) => {
     const validAttrs = Object.keys(db.Product.getAttributes());
     const reqAttr = req.params.attr;
-    if (!(reqAttr in validAttrs)) {
+    if (!(validAttrs.includes(reqAttr))) {
         return res.status(400).json({ message: "Invalid attribute requested" });
     }
     const product = await db.Product.findByPk(
