@@ -13,14 +13,19 @@ router.post("/login", async (req, res) => {
     }
     const user = await db.User.findOne({
         where: { email },
-        attributes: ["id", "name", "email", "roles"]
     });
     if (user === null) {
         return res.status(401).json({ message: "Invalid email" });
     }
     if (await user.verifyPassword(password)) {
         const token = await generateJWT(user);
-        return res.json({ token: token, user: user.toJSON() });
+        const userData = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            roles: user.roles,
+        };
+        return res.json({ token: token, user: userData });
     } else {
         return res.status(401).json({ message: "Invalid password" });
     }
