@@ -23,7 +23,7 @@ async function login() {
             const response = await authApi.post("/login", data);
             if (response.status === 200) {
                 window.localStorage.setItem("token", response.data.token);
-                window.localStorage.setItem("user", response.data.user);
+                window.localStorage.setItem("user", JSON.stringify(response.data.user));
                 window.localStorage.setItem(
                     "avatar_url", `https://gravatar.com/avatar/${sha256(response.data.user.email)}`);
                 notificationStore.show("登入成功！");
