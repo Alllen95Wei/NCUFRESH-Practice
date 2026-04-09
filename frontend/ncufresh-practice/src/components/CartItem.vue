@@ -103,7 +103,7 @@ onMounted(getItemImage);
 }
 
 .cart-item {
-    width: 100%;
+    width: calc(100% - 10px * 2);
     background-color: #e8e8e8;
     border-radius: 5px;
     display: flex;
