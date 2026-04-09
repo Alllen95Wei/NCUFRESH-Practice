@@ -21,7 +21,7 @@ function isLoggedIn() {
 }
 
 function toLogin() {
-    router.push("/login");
+    router.push({ name: "login"});
 }
 
 async function updateItemData() {
