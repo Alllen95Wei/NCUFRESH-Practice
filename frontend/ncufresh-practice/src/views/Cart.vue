@@ -20,6 +20,10 @@ function isLoggedIn() {
     return window.localStorage.getItem("token") !== null;
 }
 
+function toLogin() {
+    router.push("/login");
+}
+
 async function updateItemData() {
     for (const item of cartStore.items) {
         let newData = await productApi.get(`${item.id}`);
@@ -114,7 +118,7 @@ onMounted(updateItemData);
                         <span class="material-symbols-outlined">shopping_cart_checkout</span>
                     </div>
                 </md-filled-button>
-                <md-filled-button v-else type="button" href="/login">
+                <md-filled-button v-else type="button" @click="toLogin">
                     <div class="btn-content">
                         <span>請先登入</span>
                         <span class="material-symbols-outlined">login</span>
