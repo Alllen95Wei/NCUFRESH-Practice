@@ -2,6 +2,9 @@
 import { onMounted } from "vue";
 import axios from "axios";
 
+import "@material/web/chips/chip-set.js";
+import "@material/web/chips/filter-chip.js";
+
 import { useCartStore } from "@/stores/cartStore.ts";
 import { useNotificationStore } from "@/stores/notificationStore.ts";
 import CartItem from "@/components/CartItem.vue";
@@ -99,7 +102,11 @@ onMounted(updateItemData);
                 <h2>付款及運送資訊</h2>
                 <form id="checkout-form" action="/api/orders" method="post">
                     <h3>付款方式</h3>
-                    <div class="payment-container"></div>
+                    <div class="payment-container">
+                        <md-chip-set>
+                            <md-filter-chip label="Not implemented" selected></md-filter-chip>
+                        </md-chip-set>
+                    </div>
                     <h3>收件人資訊</h3>
                     <div class="recipient-inputs inputs-container">
                         <md-filled-button type="button" @click="fillMemberData">
