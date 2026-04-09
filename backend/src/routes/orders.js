@@ -31,7 +31,27 @@ router.post("/", formHandler.none(), async (req, res) => {
       await order.addItem(item.id, item.quantity, parseInt(item.price));
    }
    console.log(order.toJSON());
-   return res.sendStatus(200);
+   return res.status(200).json({ orderId: order.id });
 });
+
+router.get("/:id", async (req, res) => {
+   const token = req.headers.authorization;
+   if (!token) {
+      return res.sendStatus(403);
+   }
+   const order = await db.Order.findByPk(req.params.id, {
+      include: [
+         { model: db.Product, as: "products" },
+      ]
+   });
+   if (order === null) {
+      return res.status(404).json({ message: "Order not found" });
+   }
+   const { id } = await decodeJwt(token);
+   if (parseInt(id) !== order.userId) {
+      return res.status(403).json({ message: "Not authorized" });
+   }
+   res.json(order.toJSON());
+})
 
 export default router;
