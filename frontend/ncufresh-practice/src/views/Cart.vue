@@ -181,7 +181,7 @@ onMounted(updateItemData);
     display: flex;
     flex-direction: column;
     gap: 1vh;
-    align-items: center;
+    align-items: start;
     margin: 3vh 0;
 }
 
