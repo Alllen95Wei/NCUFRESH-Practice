@@ -13,7 +13,7 @@ router.post("/", formHandler.none(), async (req, res) => {
       return res.sendStatus(400);
    }
    const token = body.token;
-   const { roles } = await decodeJwt(token);
+   const { id, roles } = await decodeJwt(token);
    if (!roles.includes("customer")) {
       return res.sendStatus(403);
    }
@@ -24,6 +24,7 @@ router.post("/", formHandler.none(), async (req, res) => {
       recipientName: body["recipient-name"],
       recipientEmail: body["recipient-email"],
       recipientPhone: body["recipient-phone"],
+      userId: id,
    });
    for (const item of cart) {
       console.log(item);
