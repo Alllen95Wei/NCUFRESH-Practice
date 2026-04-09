@@ -2,6 +2,13 @@ import { DataTypes, Model } from "sequelize";
 import bcrypt from "bcrypt";
 
 class User extends Model {
+    static associate(models) {
+        User.hasMany(models.Order, {
+            foreignKey: "orders",
+            as: "orders",
+        })
+    }
+
     async verifyPassword(inputPassword) {
         return await bcrypt.compare(inputPassword, this.password);
     }
