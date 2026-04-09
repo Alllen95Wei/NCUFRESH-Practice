@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 
 import "@material/web/chips/chip-set.js";
@@ -11,6 +12,7 @@ import CartItem from "@/components/CartItem.vue";
 
 const cartStore = useCartStore();
 const notifStore = useNotificationStore();
+const router = useRouter();
 
 const productApi = axios.create({ baseURL: "/api/products" });
 
