@@ -11,6 +11,7 @@ const props = defineProps({
     name: String,
     price: Number,
     quantity: Number,
+    readonly: Boolean,
 });
 const cartStore = useCartStore();
 const productApi = axios.create({ baseURL: "/api/products" });
@@ -59,9 +60,7 @@ function removeItem() {
     }
 }
 
-onMounted(() => {
-    getItemImage();
-});
+onMounted(getItemImage);
 </script>
 
 <template>
@@ -73,7 +72,11 @@ onMounted(() => {
                 <span class="item-price">NTD$ {{ price.toLocaleString() }}</span>
             </div>
         </div>
-        <div class="actions">
+        <div class="subtotal-container" v-if="readonly">
+            <span class="quantity-text">× {{ quantity }}</span>
+            <span class="price-text">NTD$ {{ (price * quantity).toLocaleString() }}</span>
+        </div>
+        <div class="actions" v-else>
             <div class="quantity-container">
                 <input class="quantity-input" type="number" min="1" max="99" :value="productQuantity" @change="amountInput"/>
                 <div class="quantity-btn-container">
@@ -186,5 +189,18 @@ input[type=number] {
 .quantity-btn-container {
     display: flex;
     flex-direction: column;
+}
+
+.subtotal-container {
+    font-size: larger;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 0.2em;
+}
+
+.price-text {
+    font-weight: 500;
+    color: #15529c;
 }
 </style>
