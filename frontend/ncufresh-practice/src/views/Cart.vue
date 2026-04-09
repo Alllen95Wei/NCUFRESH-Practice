@@ -29,9 +29,8 @@ async function updateItemData() {
             notifStore.show(`已更新商品「${oldName}」名稱為「${newData.name}」`);
         }
         if (Number(item.price) !== Number(newData.price)) {
-            const oldPrice = item.price;
             cartStore.modifyItemData(item.id, null, newData.price);
-            notifStore.show(`已更新商品「${oldPrice}」價格為 NTD$ ${newData.price}`);
+            notifStore.show(`已更新商品「${item.name}」價格為 NTD$ ${newData.price}`);
         }
     }
 }
