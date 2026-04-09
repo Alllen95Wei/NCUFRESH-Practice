@@ -59,13 +59,30 @@ function submitForm() {
     const form = document.getElementById("checkout-form");
     if (form.reportValidity()) {
         const formData = new FormData(form);
-        const xhr = new XMLHttpRequest();
+
         formData.append("token", window.localStorage.getItem("token"));
         formData.append("cart", JSON.stringify(cartStore.items));
         console.log(Object.fromEntries(formData.entries()));
 
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener("readystatechange", xhrStateChanged);
         xhr.open("POST", `/api/orders`, true);
         xhr.send(formData);
+    }
+}
+
+function xhrStateChanged(event) {
+    const xhr = event.target;
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            cartStore.clearCart();
+            notifStore.show("訂單建立成功！", "success");
+            router.push(`/order/${response.orderId}`);
+        } else {
+            console.error("Failed to create order:", xhr.responseText);
+            notifStore.show("訂單建立失敗。請稍後再試。", "error", 5000);
+        }
     }
 }
 
@@ -83,7 +100,8 @@ onMounted(updateItemData);
                           :id="item.id"
                           :name="item.name"
                           :price="parseFloat(item.price)"
-                          :quantity="item.quantity" />
+                          :quantity="item.quantity"
+                          :readonly="false"  />
             </div>
             <div class="bottom-container">
                 <div class="sum-container">
