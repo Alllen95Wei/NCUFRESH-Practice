@@ -24,6 +24,19 @@ export const useCartStore = defineStore("cart", {
             }
             console.log(this.items);
         },
+        modifyItemData(itemId: number, name?: string, price?: number) {
+            const item = this.items.find((i: CartItem) => i.id === itemId);
+            if (item) {
+                if (name) {
+                    item.name = name;
+                }
+                if (price) {
+                    item.price = price;
+                }
+            } else {
+                throw new Error(`Item with ID ${itemId} not found in cart.`);
+            }
+        },
         changeQuantity(itemId: number, newQuantity: number) {
             const item = this.items.find((i: CartItem) => i.id === itemId);
             if (item) {
