@@ -6,6 +6,7 @@ import ProductDetail from "@/views/ProductDetail.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import Cart from "@/views/Cart.vue";
+import OrderDetail from "@/views/OrderDetail.vue";
 
 // Routes
 const routes: RouteRecordRaw[] = [
@@ -33,6 +34,11 @@ const routes: RouteRecordRaw[] = [
         path: "/cart",
         name: "cart",
         component: Cart,
+    },
+    {
+        path: "/order/:id",
+        name: "order-detail",
+        component: OrderDetail,
     }
 ];
 
