@@ -36,6 +36,11 @@ async function updateItemData() {
     }
 }
 
+function expandCheckout(event) {
+    event.target.style.display = "none";
+    document.getElementById("shipping-container").setAttribute("expanded", "");
+}
+
 function fillMemberData() {
     console.log(window.localStorage.getItem("user"))
     const userData = JSON.parse(window.localStorage.getItem("user"));
@@ -84,7 +89,7 @@ onMounted(updateItemData);
                     <span>總金額：</span>
                     <span class="sum-text">NTD$ {{ cartStore.getTotalPrice().toLocaleString() }}</span>
                 </div>
-                <md-filled-button v-if="isLoggedIn()" id="proceed-btn">
+                <md-filled-button v-if="isLoggedIn()" id="proceed-btn" @click="expandCheckout">
                     <div class="btn-content">
                         <span>前往結帳</span>
                         <span class="material-symbols-outlined">shopping_cart_checkout</span>
@@ -97,7 +102,7 @@ onMounted(updateItemData);
                     </div>
                 </md-filled-button>
             </div>
-            <div class="shipping-container">
+            <div class="shipping-container" id="shipping-container">
                 <hr>
                 <h2>付款及運送資訊</h2>
                 <form id="checkout-form" action="/api/orders" method="post">
@@ -134,7 +139,7 @@ onMounted(updateItemData);
                             <md-icon slot="leading-icon">location_city</md-icon>
                         </md-filled-text-field>
                         <md-filled-text-field type="text" label="鄉鎮市區" name="district" id="district-input" autocomplete="address-level2" required>
-                            <md-icon slot="leading-icon">edit_location</md-icon>
+                            <md-icon slot="leading-icon">location_city</md-icon>
                         </md-filled-text-field>
                         <md-filled-text-field type="text" label="街道地址" name="street-address" id="address-input" autocomplete="street-address" required>
                             <md-icon slot="leading-icon">edit_location</md-icon>
@@ -186,6 +191,16 @@ onMounted(updateItemData);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.shipping-container {
+    height: 0;
+    display: none;
+}
+
+.shipping-container[expanded] {
+    height: auto;
+    display: inherit;
 }
 
 .sum-container {
