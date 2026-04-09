@@ -13,7 +13,7 @@ const apiRouter = express.Router();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static("dist"));
+app.use(express.static("public"));
 app.use(logger);
 
 apiRouter.use("/auth", authRouter);

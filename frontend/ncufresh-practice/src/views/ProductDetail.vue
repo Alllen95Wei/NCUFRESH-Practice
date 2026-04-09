@@ -39,7 +39,7 @@ async function updateItemDetail(itemId) {
     }).catch((error) => {
         isValidId.value = false;
         console.error("Failed to fetch item detail:", error);
-        notifStore.show("無法獲取商品資訊。請稍後再試。", "error", 5000);
+        notifStore.show("無法取得商品資訊。請稍後再試。", "error", 5000);
     });
 
 }
