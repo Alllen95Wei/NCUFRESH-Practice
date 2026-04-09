@@ -1,12 +1,36 @@
 <script setup>
-import { useCartStore } from "@/stores/cartStore.ts";
+import { onMounted } from "vue";
+import axios from "axios";
 
+import { useCartStore } from "@/stores/cartStore.ts";
+import { useNotificationStore } from "@/stores/notificationStore.ts";
 import CartItem from "@/components/CartItem.vue";
 
 const cartStore = useCartStore();
+const notifStore = useNotificationStore();
+
+const productApi = axios.create({ baseURL: "/api/products" });
 
 function isLoggedIn() {
     return window.localStorage.getItem("token") !== null;
+}
+
+async function updateItemData() {
+    for (const item of cartStore.items) {
+        let newData = await productApi.get(`${item.id}`);
+        newData = newData.data;
+        console.log(newData);
+        if (item.name !== newData.name) {
+            const oldName = item.name;
+            cartStore.modifyItemData(item.id, newData.name);
+            notifStore.show(`已更新商品「${oldName}」名稱為「${newData.name}」`);
+        }
+        if (Number(item.price) !== Number(newData.price)) {
+            const oldPrice = item.price;
+            cartStore.modifyItemData(item.id, null, newData.price);
+            notifStore.show(`已更新商品「${oldPrice}」價格為 NTD$ ${newData.price}`);
+        }
+    }
 }
 
 function fillMemberData() {
@@ -35,6 +59,8 @@ function submitForm() {
         xhr.send(formData);
     }
 }
+
+onMounted(updateItemData);
 </script>
 
 <template>
